@@ -1,0 +1,9 @@
+docker_proxy_clear_cache: false
+docker_proxy_cache_path: /registry/local-storage/cache
+docker_proxy_version: latest
+docker_proxy_backend: "XXXXXXXX.dkr.ecr.eu-central-1.amazonaws.com"
+docker_proxy_backend_schema: https
+docker_proxy_backend_resolver: "8.8.8.8"
+docker_proxy_ecr_access_id:
+docker_proxy_ecr_secret_key:
+docker_proxy_ecr_region:

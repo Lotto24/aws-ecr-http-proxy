@@ -23,3 +23,9 @@ docker run --rm --name docker-registry-proxy --net=host \
 ```
 
 If you ran this command on "registry-proxy.example.com" you can now get your images using `docker pull registry-proxy.example.com:5000/repo/image`.
+
+### Deploying the proxy
+Modify the ansible role variables according to your need and run the playbook as follow:
+```sh
+ansible-playbook -i hosts playbook-docker-registry-proxy.yaml
+```
