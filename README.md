@@ -29,3 +29,4 @@ Modify the ansible role variables according to your need and run the playbook as
 ```sh
 ansible-playbook -i hosts playbook-docker-registry-proxy.yaml
 ```
+The docker registry for project is available [here](https://hub.docker.com/r/esailors/aws-ecr-http-proxy)
