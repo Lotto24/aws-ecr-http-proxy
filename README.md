@@ -22,4 +22,4 @@ docker run --rm --name docker-registry-proxy --net=host \
   esailors/aws-ecr-http-proxy:1.13.7-alpine
 ```
 
-If you ran this command on "registry-proxy.example.com" you can now get your images using `docker pull registry-proxy.example.com:5000/repo/image`. Also this example reads the aws config from host enviroment variables but you can change them according to your need.
+If you ran this command on "registry-proxy.example.com" you can now get your images using `docker pull registry-proxy.example.com:5000/repo/image`.
