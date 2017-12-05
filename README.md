@@ -19,7 +19,7 @@ docker run --rm --name docker-registry-proxy --net=host \
   -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
   -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
   -e AWS_REGION=${AWS_DEFAULT_REGION} \
-  esailors/aws-ecr-http-proxy:1.13.7-alpine
+  esailors/aws-ecr-http-proxy:latest
 ```
 
 If you ran this command on "registry-proxy.example.com" you can now get your images using `docker pull registry-proxy.example.com:5000/repo/image`.
