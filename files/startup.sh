@@ -31,10 +31,12 @@ fi
 UPSTREAM_WITHOUT_PORT=$( echo ${UPSTREAM} | sed -r "s/.*:\/\/(.*):.*/\1/g")
 echo Using resolver $RESOLVER and $UPSTREAM [$(dig +short  ${UPSTREAM_WITHOUT_PORT})] as upstream.
 
+CONFIG=/usr/local/openresty/nginx/conf/nginx.conf
+
 # Update nginx config
-sed -i -e s!UPSTREAM!"$UPSTREAM"!g /etc/nginx/conf.d/default.conf
-sed -i -e s!PORT!"$PORT"!g /etc/nginx/conf.d/default.conf
-sed -i -e s!RESOLVER!"$RESOLVER"!g /etc/nginx/conf.d/default.conf
+sed -i -e s!UPSTREAM!"$UPSTREAM"!g $CONFIG
+sed -i -e s!PORT!"$PORT"!g $CONFIG
+sed -i -e s!RESOLVER!"$RESOLVER"!g $CONFIG
 
 # setup ~/.aws directory
 AWS_FOLDER='/root/.aws'
@@ -47,9 +49,9 @@ echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> ${AWS_FOLDER}/credentials
 chmod 600 -R ${AWS_FOLDER}
 
 # add the auth token in default.conf
-AUTH=$(grep  X-Forwarded-User /etc/nginx/conf.d/default.conf | awk '{print $4}'| uniq|tr -d "\n\r")
+AUTH=$(grep  X-Forwarded-User $CONFIG | awk '{print $4}'| uniq|tr -d "\n\r")
 TOKEN=$(aws ecr get-login --no-include-email | awk '{print $6}')
 AUTH_N=$(echo AWS:${TOKEN}  | base64 |tr -d "[:space:]")
-sed -i "s|${AUTH%??}|${AUTH_N}|g" /etc/nginx/conf.d/default.conf
+sed -i "s|${AUTH%??}|${AUTH_N}|g" $CONFIG
 
 exec "$@"
