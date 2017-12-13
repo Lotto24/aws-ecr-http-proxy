@@ -3,6 +3,8 @@ USER root
 
 RUN apk add -v --no-cache bind-tools python py-pip supervisor \
  && mkdir /cache \
+ && addgroup -g 101 nginx \
+ && adduser -u 100  -D -S -h /cache -s /sbin/nologin -G nginx nginx \
  && pip install --upgrade pip awscli==1.11.183 \
  && apk -v --purge del py-pip
 
