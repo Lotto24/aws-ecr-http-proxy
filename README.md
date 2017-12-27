@@ -30,3 +30,6 @@ Modify the ansible role variables according to your need and run the playbook as
 ansible-playbook -i hosts playbook-docker-registry-proxy.yaml
 ```
 The docker registry for project is available [here](https://hub.docker.com/r/esailors/aws-ecr-http-proxy)
+
+### Note
+The proxy has `HTTP` endpoint so in order to avoid docker client complaining about it either mark the registry host as insecure in your [deamon config](https://docs.docker.com/registry/insecure/) or add [SSL/TLS termination](https://docs.docker.com/registry/recipes/nginx)
