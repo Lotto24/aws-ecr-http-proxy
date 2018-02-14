@@ -1,4 +1,5 @@
 docker_proxy_clear_cache: false
+docker_proxy_cache_limit: 75g
 docker_proxy_cache_path: /registry/local-storage/cache
 docker_proxy_version: latest
 docker_proxy_backend: "XXXXXXXX.dkr.ecr.eu-central-1.amazonaws.com"

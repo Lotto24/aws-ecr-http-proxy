@@ -33,6 +33,7 @@
       -e RESOLVER={{ docker_proxy_backend_resolver }}
       -e PORT=5000
       -e UPSTREAM={{ docker_proxy_backend_schema }}://{{ docker_proxy_backend }}
+      -e CACHE_MAX_SIZE={{ docker_proxy_cache_limit }} 
       -e AWS_ACCESS_KEY_ID={{ docker_proxy_ecr_access_id }}
       -e AWS_SECRET_ACCESS_KEY={{ docker_proxy_ecr_secret_key }}
       -e AWS_REGION={{ docker_proxy_ecr_region }}
