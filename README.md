@@ -8,6 +8,8 @@ Run it like this, replace UPSTREAM with your target address with following requi
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 
+It is also possible to define `CACHE_MAX_SIZE` env to limit maximum cache size on provided volume
+
 For example:
 
 ```sh
@@ -19,6 +21,7 @@ docker run --rm --name docker-registry-proxy --net=host \
   -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
   -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
   -e AWS_REGION=${AWS_DEFAULT_REGION} \
+  -e CACHE_MAX_SIZE=100g \
   esailors/aws-ecr-http-proxy:latest
 ```
 
