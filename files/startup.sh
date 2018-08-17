@@ -36,11 +36,23 @@ echo Using cache max size $CACHE_MAX_SIZE
 
 CONFIG=/usr/local/openresty/nginx/conf/nginx.conf
 
+ENABLESSL=''
+SSLINCLUDE=''
+SSLCONFIG=/usr/local/openresty/nginx/conf/ssl.conf
+if [ ! -z "$REGISTRY_HTTP_TLS_CERTIFICATE" ] && [ ! -z "$REGISTRY_HTTP_TLS_KEY" ]; then
+  sed -i -e s!REGISTRY_HTTP_TLS_CERTIFICATE!"$REGISTRY_HTTP_TLS_CERTIFICATE"!g $SSLCONFIG
+  sed -i -e s!REGISTRY_HTTP_TLS_KEY!"$REGISTRY_HTTP_TLS_KEY"!g $SSLCONFIG
+  ENABLESSL='ssl'
+  SSLINCLUDE="include $SSLCONFIG;"
+fi
+
 # Update nginx config
 sed -i -e s!UPSTREAM!"$UPSTREAM"!g $CONFIG
+sed -i -e s!LISTEN!"$PORT $ENABLESSL"!g $CONFIG
 sed -i -e s!PORT!"$PORT"!g $CONFIG
 sed -i -e s!RESOLVER!"$RESOLVER"!g $CONFIG
 sed -i -e s!CACHE_MAX_SIZE!"$CACHE_MAX_SIZE"!g $CONFIG
+sed -i -e s!#SSLCONFIG!"$SSLINCLUDE"!g $CONFIG
 
 # setup ~/.aws directory
 AWS_FOLDER='/root/.aws'
