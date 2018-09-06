@@ -16,6 +16,7 @@ COPY files/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 COPY files/ssl.conf /usr/local/openresty/nginx/conf/ssl.conf
 
 ENV PORT 5000
+RUN chmod a+x /startup.sh /renew_token.sh
 
 ENTRYPOINT ["/startup.sh"]
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
