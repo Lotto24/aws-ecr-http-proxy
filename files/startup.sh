@@ -34,7 +34,7 @@ echo Using resolver $RESOLVER and $UPSTREAM [$(dig +short  ${UPSTREAM_WITHOUT_PO
 CACHE_MAX_SIZE=${CACHE_MAX_SIZE:-75g}
 echo Using cache max size $CACHE_MAX_SIZE
 
-CACHE_KEY=${CACHE_KEY:='$scheme$uri$request_method'}
+CACHE_KEY=${CACHE_KEY:='$uri'}
 echo Using cache key $CACHE_KEY
 
 SCHEME=http
