@@ -34,31 +34,30 @@ echo Using resolver $RESOLVER and $UPSTREAM [$(dig +short  ${UPSTREAM_WITHOUT_PO
 CACHE_MAX_SIZE=${CACHE_MAX_SIZE:-75g}
 echo Using cache max size $CACHE_MAX_SIZE
 
+CACHE_KEY=${CACHE_KEY:='$scheme$uri$request_method'}
+echo Using cache key $CACHE_KEY
+
+SCHEME=http
 CONFIG=/usr/local/openresty/nginx/conf/nginx.conf
+SSL_CONFIG=/usr/local/openresty/nginx/conf/ssl.conf
 
-ENABLESSL=''
-SSLINCLUDE=''
-SSLCONFIG=/usr/local/openresty/nginx/conf/ssl.conf
-if [ ! -z "$REGISTRY_HTTP_TLS_CERTIFICATE" ] && [ ! -z "$REGISTRY_HTTP_TLS_KEY" ]; then
-  sed -i -e s!REGISTRY_HTTP_TLS_CERTIFICATE!"$REGISTRY_HTTP_TLS_CERTIFICATE"!g $SSLCONFIG
-  sed -i -e s!REGISTRY_HTTP_TLS_KEY!"$REGISTRY_HTTP_TLS_KEY"!g $SSLCONFIG
-  ENABLESSL='ssl'
-  SSLINCLUDE="include $SSLCONFIG;"
-fi
-
-AUTHCONFIG=''
-if [ ! -z "$REGISTRY_AUTH_HTPASSWD_PATH" ] && [ ! -z "$REGISTRY_AUTH_HTPASSWD_REALM" ]; then
-  AUTHCONFIG="auth_basic  ${REGISTRY_AUTH_HTPASSWD_REALM};\n    auth_basic_user_file ${REGISTRY_AUTH_HTPASSWD_PATH};"
+if [ "$ENABLE_SSL" ]; then
+  sed -i -e s!REGISTRY_HTTP_TLS_CERTIFICATE!"$REGISTRY_HTTP_TLS_CERTIFICATE"!g $SSL_CONFIG
+  sed -i -e s!REGISTRY_HTTP_TLS_KEY!"$REGISTRY_HTTP_TLS_KEY"!g $SSL_CONFIG
+  SSL_LISTEN="ssl"
+  SSL_INCLUDE="include $SSL_CONFIG;"
+  SCHEME="https"
 fi
 
 # Update nginx config
 sed -i -e s!UPSTREAM!"$UPSTREAM"!g $CONFIG
-sed -i -e s!LISTEN!"$PORT $ENABLESSL"!g $CONFIG
 sed -i -e s!PORT!"$PORT"!g $CONFIG
 sed -i -e s!RESOLVER!"$RESOLVER"!g $CONFIG
 sed -i -e s!CACHE_MAX_SIZE!"$CACHE_MAX_SIZE"!g $CONFIG
-sed -i -e s!#SSLCONFIG!"$SSLINCLUDE"!g $CONFIG
-sed -i -e s!#AUTHCONFIG!"$AUTHCONFIG"!g $CONFIG
+sed -i -e s!CACHE_KEY!"$CACHE_KEY"!g $CONFIG
+sed -i -e s!SCHEME!"$SCHEME"!g $CONFIG
+sed -i -e s!SSL_INCLUDE!"$SSL_INCLUDE"!g $CONFIG
+sed -i -e s!SSL_LISTEN!"$SSL_LISTEN"!g $CONFIG
 
 # setup ~/.aws directory
 AWS_FOLDER='/root/.aws'

@@ -1,2 +1,2 @@
 [docker-registry-proxy]
-registry-proxy.example.com
+localhost ansible_connection=local
