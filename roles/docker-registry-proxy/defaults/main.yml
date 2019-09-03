@@ -8,3 +8,7 @@ docker_proxy_backend_resolver: "8.8.8.8"
 docker_proxy_ecr_access_id:
 docker_proxy_ecr_secret_key:
 docker_proxy_ecr_region:
+
+docker_proxy_ssl_enabled:
+docker_proxy_ssl_host_path: /registry
+docker_proxy_ssl_container_path: /opt/nginx
