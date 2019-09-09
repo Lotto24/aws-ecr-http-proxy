@@ -32,20 +32,20 @@ The proxy is packaged in a docker container and can be configured with following
 ### Example:
 
 ```sh
-docker run --rm --name docker-registry-proxy --net=host \
+docker run -d --name docker-registry-proxy --net=host \
   -v /registry/local-storage/cache:/cache \
-  -v /registry/certificate.pem:/opt/ssl/certificate.pem
-  -v /registry/key.pem:/opt/ssl/key.pem
+  -v /registry/certificate.pem:/opt/ssl/certificate.pem \
+  -v /registry/key.pem:/opt/ssl/key.pem \
   -e PORT=5000 \
   -e RESOLVER=8.8.8.8 \
   -e UPSTREAM=https://XXXXXXXXXX.dkr.ecr.eu-central-1.amazonaws.com \
-  -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
   -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+  -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
   -e AWS_REGION=${AWS_DEFAULT_REGION} \
   -e CACHE_MAX_SIZE=100g \
   -e ENABLE_SSL=true \
   -e REGISTRY_HTTP_TLS_KEY=/opt/ssl/key.pem \
-  -e REGISTRY_HTTP_TLS_CERTIFICATE=/opt/ssl/certificate.pem
+  -e REGISTRY_HTTP_TLS_CERTIFICATE=/opt/ssl/certificate.pem \
   esailors/aws-ecr-http-proxy:latest
 ```
 
