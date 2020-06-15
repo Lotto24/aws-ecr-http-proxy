@@ -23,9 +23,11 @@ if [ -z "$AWS_REGION" ] ; then
   exit 1
 fi
 
-if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
-  echo "AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY not set."
-  exit 1
+if [ -z "$AWS_USE_EC2_ROLE_FOR_AUTH" ] || [ "$AWS_USE_EC2_ROLE_FOR_AUTH" != "true" ]; then
+  if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
+    echo "AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY not set."
+    exit 1
+  fi
 fi
 
 UPSTREAM_WITHOUT_PORT=$( echo ${UPSTREAM} | sed -r "s/.*:\/\/(.*):.*/\1/g")
@@ -64,9 +66,12 @@ AWS_FOLDER='/root/.aws'
 mkdir -p ${AWS_FOLDER}
 echo "[default]" > ${AWS_FOLDER}/config
 echo "region = $AWS_REGION" >> ${AWS_FOLDER}/config
-echo "[default]" > ${AWS_FOLDER}/credentials
-echo "aws_access_key_id=$AWS_ACCESS_KEY_ID" >> ${AWS_FOLDER}/credentials
-echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> ${AWS_FOLDER}/credentials
+
+if [ -z "$AWS_USE_EC2_ROLE_FOR_AUTH" ] || [ "$AWS_USE_EC2_ROLE_FOR_AUTH" != "true" ]; then
+  echo "[default]" > ${AWS_FOLDER}/credentials
+  echo "aws_access_key_id=$AWS_ACCESS_KEY_ID" >> ${AWS_FOLDER}/credentials
+  echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> ${AWS_FOLDER}/credentials
+fi
 chmod 600 -R ${AWS_FOLDER}
 
 # add the auth token in default.conf
