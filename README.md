@@ -18,8 +18,9 @@ The proxy is packaged in a docker container and can be configured with following
 | Environment Variable                | Description                                    | Status                            | Default    |
 | :---------------------------------: | :--------------------------------------------: | :-------------------------------: | :--------: |
 | `AWS_REGION`                        | AWS Region for AWS ECR                         | Required                          |            |
-| `AWS_ACCESS_KEY_ID`                 | AWS Account Access Key ID                      | Required                          |            |
-| `AWS_SECRET_ACCESS_KEY`             | AWS Account Secret Access Key                  | Required                          |            |
+| `AWS_ACCESS_KEY_ID`                 | AWS Account Access Key ID                      | Optional                          |            |
+| `AWS_SECRET_ACCESS_KEY`             | AWS Account Secret Access Key                  | Optional                          |            |
+| `AWS_USE_EC2_ROLE_FOR_AUTH`                  | Set this to true if we do want to use aws roles for authentication instead of providing the secret and access keys explicitly | Optional                          |            |
 | `UPSTREAM`                          | URL for AWS ECR                                | Required                          |            |
 | `RESOLVER`                          | DNS server to be used by proxy                 | Required                          |            |
 | `PORT`                              | Port on which proxy listens                    | Required                          |            |
