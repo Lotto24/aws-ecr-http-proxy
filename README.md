@@ -4,7 +4,7 @@
     <a href="https://hub.docker.com/r/esailors/aws-ecr-http-proxy" alt="Pulls">
         <img src="https://img.shields.io/docker/pulls/esailors/aws-ecr-http-proxy" /></a>
     <a href="https://www.esailors.de" alt="Maintained">
-        <img src="https://img.shields.io/maintenance/yes/2019.svg" /></a>
+        <img src="https://img.shields.io/maintenance/yes/2020.svg" /></a>
 
 </p>
 
