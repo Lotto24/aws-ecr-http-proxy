@@ -61,6 +61,9 @@ sed -i -e s!SCHEME!"$SCHEME"!g $CONFIG
 sed -i -e s!SSL_INCLUDE!"$SSL_INCLUDE"!g $CONFIG
 sed -i -e s!SSL_LISTEN!"$SSL_LISTEN"!g $CONFIG
 
+# Update health-check
+sed -i -e s!PORT!"$PORT"!g /health-check.sh
+
 # setup ~/.aws directory
 AWS_FOLDER='/root/.aws'
 mkdir -p ${AWS_FOLDER}
