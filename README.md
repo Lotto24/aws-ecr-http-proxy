@@ -53,11 +53,25 @@ docker run -d --name docker-registry-proxy --net=host \
 If you ran this command on "registry-proxy.example.com" you can now get your images using `docker pull registry-proxy.example.com:5000/repo/image`.
 
 ### Deploying the proxy
+
+#### Deploying with ansible
+
 Modify the ansible role [variables](https://github.com/eSailors/aws-ecr-http-proxy/tree/master/roles/docker-registry-proxy/defaults) according to your need and run the playbook as follow:
 ```sh
 ansible-playbook -i hosts playbook-docker-registry-proxy.yaml
 ```
 In case you want to enable SSL/TLS please replace the SSL certificates with the valid ones in [roles/docker-registry-proxy/files/*.pem](https://github.com/eSailors/aws-ecr-http-proxy/tree/master/roles/docker-registry-proxy/files)
+
+#### Deploying on Kubernetes with Helm
+You can install on Kubernetes using the [community-maintained chart](https://github.com/evryfs/helm-charts/tree/master/charts/ecr-proxy) like this:
+
+```shell
+helm repo add evryfs-oss https://evryfs.github.io/helm-charts/
+helm install evryfs-oss/ecr-proxy --name ecr-proxy --namespace ecr-proxy
+```
+
+See the [values-file](https://github.com/evryfs/helm-charts/blob/master/charts/ecr-proxy/values.yaml) for configuration parameters.
+
 
 ### Note on SSL/TLS
 The proxy is using `HTTP` (plain text) as default protocol for now. So in order to avoid docker client complaining either:
