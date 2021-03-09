@@ -1,10 +1,10 @@
 <p align="left">
-    <a href="https://hub.docker.com/r/esailors/aws-ecr-http-proxy/builds" alt="Build">
+    <a href="https://img.shields.io/docker/cloud/build/esailors/aws-ecr-http-proxy" alt="Build">
         <img src="https://img.shields.io/docker/build/esailors/aws-ecr-http-proxy" /></a>
     <a href="https://hub.docker.com/r/esailors/aws-ecr-http-proxy" alt="Pulls">
         <img src="https://img.shields.io/docker/pulls/esailors/aws-ecr-http-proxy" /></a>
     <a href="https://www.esailors.de" alt="Maintained">
-        <img src="https://img.shields.io/maintenance/yes/2020.svg" /></a>
+        <img src="https://img.shields.io/maintenance/yes/2021.svg" /></a>
 
 </p>
 
