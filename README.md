@@ -24,6 +24,7 @@ The proxy is packaged in a docker container and can be configured with following
 | `PORT`                              | Port on which proxy listens                    | Required                          |            |
 | `CACHE_MAX_SIZE`                    | Maximum size for cache volume                  | Optional                          |  `75g`     |
 | `CACHE_KEY`                         | Cache key used for the content by nginx        | Optional                          |  `$uri`    |
+| `CACHE_INACTIVE_TIME`               | Cache inactive time used by nginx              | Optional                          |   `1y`     |
 | `ENABLE_SSL`                        | Used to enable SSL/TLS for proxy               | Optional                          | `false`    |
 | `BEHIND_SSL_PROXY`                  | Fixes redirects when behind a proxy handling SSL (i.e. aws ALB)          | Optional                          | `false`    |
 | `REGISTRY_HTTP_TLS_KEY`             | Path to TLS key in the container               | Required with TLS                 |            |
@@ -43,6 +44,7 @@ docker run -d --name docker-registry-proxy --net=host \
   -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
   -e AWS_REGION=${AWS_DEFAULT_REGION} \
   -e CACHE_MAX_SIZE=100g \
+  -e CACHE_INACTIVE_TIME=1y \
   -e ENABLE_SSL=true \
   -e REGISTRY_HTTP_TLS_KEY=/opt/ssl/key.pem \
   -e REGISTRY_HTTP_TLS_CERTIFICATE=/opt/ssl/certificate.pem \
