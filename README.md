@@ -29,6 +29,7 @@ The proxy is packaged in a docker container and can be configured with following
 | `ENABLE_SSL`                        | Used to enable SSL/TLS for proxy               | Optional                          | `false`    |
 | `REGISTRY_HTTP_TLS_KEY`             | Path to TLS key in the container               | Required with TLS                 |            |
 | `REGISTRY_HTTP_TLS_CERTIFICATE`     | Path to TLS cert in the container              | Required with TLS                 |            |
+| `CLIENT_AUTH_USER_FILE`             | Path to auth_basic user file in the container for client authentication | Optional |            |
 
 ### Example:
 

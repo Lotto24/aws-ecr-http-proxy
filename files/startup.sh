@@ -42,6 +42,7 @@ echo Using cache key $CACHE_KEY
 SCHEME=http
 CONFIG=/usr/local/openresty/nginx/conf/nginx.conf
 SSL_CONFIG=/usr/local/openresty/nginx/conf/ssl.conf
+AUTH_CONFIG=/usr/local/openresty/nginx/conf/client_auth.conf
 
 if [ "$ENABLE_SSL" ]; then
   sed -i -e s!REGISTRY_HTTP_TLS_CERTIFICATE!"$REGISTRY_HTTP_TLS_CERTIFICATE"!g $SSL_CONFIG
@@ -49,6 +50,11 @@ if [ "$ENABLE_SSL" ]; then
   SSL_LISTEN="ssl"
   SSL_INCLUDE="include $SSL_CONFIG;"
   SCHEME="https"
+fi
+
+if [ "$CLIENT_AUTH_USER_FILE" ]; then
+    sed -i -e s!CLIENT_AUTH_USER_FILE!"$CLIENT_AUTH_USER_FILE"!g $AUTH_CONFIG
+    AUTH_INCLUDE="include $AUTH_CONFIG;"
 fi
 
 # Update nginx config
@@ -60,6 +66,7 @@ sed -i -e s!CACHE_KEY!"$CACHE_KEY"!g $CONFIG
 sed -i -e s!SCHEME!"$SCHEME"!g $CONFIG
 sed -i -e s!SSL_INCLUDE!"$SSL_INCLUDE"!g $CONFIG
 sed -i -e s!SSL_LISTEN!"$SSL_LISTEN"!g $CONFIG
+sed -i -e s!AUTH_INCLUDE!"$AUTH_INCLUDE"!g $CONFIG
 
 # Update health-check
 sed -i -e s!PORT!"$PORT"!g /health-check.sh

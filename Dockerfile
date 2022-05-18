@@ -15,6 +15,7 @@ COPY files/root /etc/crontabs/root
 
 COPY files/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 COPY files/ssl.conf /usr/local/openresty/nginx/conf/ssl.conf
+COPY files/client_auth.conf /usr/local/openresty/nginx/conf/client_auth.conf
 
 ENV PORT 5000
 RUN chmod a+x /startup.sh /renew_token.sh
