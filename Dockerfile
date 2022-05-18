@@ -1,11 +1,11 @@
-FROM openresty/openresty:1.15.8.3-2-alpine
+FROM openresty/openresty:1.19.9.1-12-alpine
 
 USER root
 
-RUN apk add -v --no-cache bind-tools python py-pip supervisor \
+RUN apk add -v --no-cache bind-tools python3 py-pip py3-urllib3 py3-colorama supervisor \
  && mkdir /cache \
- && addgroup -g 101 nginx \
- && adduser -u 100  -D -S -h /cache -s /sbin/nologin -G nginx nginx \
+ && addgroup -g 110 nginx \
+ && adduser -u 110  -D -S -h /cache -s /sbin/nologin -G nginx nginx \
  && pip install --upgrade pip awscli==1.11.183 \
  && apk -v --purge del py-pip
 
