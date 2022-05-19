@@ -83,4 +83,7 @@ TOKEN=$(aws ecr get-login --no-include-email | awk '{print $6}')
 AUTH_N=$(echo AWS:${TOKEN}  | base64 |tr -d "[:space:]")
 sed -i "s|${AUTH%??}|${AUTH_N}|g" $CONFIG
 
+# make sure cache directory has correct ownership
+chown -R nginx:nginx /cache
+
 exec "$@"
