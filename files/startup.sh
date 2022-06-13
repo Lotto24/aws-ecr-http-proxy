@@ -79,7 +79,7 @@ chmod 600 -R ${AWS_FOLDER}
 
 # add the auth token in default.conf
 AUTH=$(grep  X-Forwarded-User $CONFIG | awk '{print $4}'| uniq|tr -d "\n\r")
-TOKEN=$(aws ecr get-login --no-include-email | awk '{print $6}')
+TOKEN=$(aws ecr get-login-password)
 AUTH_N=$(echo AWS:${TOKEN}  | base64 |tr -d "[:space:]")
 sed -i "s|${AUTH%??}|${AUTH_N}|g" $CONFIG
 
