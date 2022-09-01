@@ -45,7 +45,7 @@ docker run -d --name docker-registry-proxy --net=host \
   -e ENABLE_SSL=true \
   -e REGISTRY_HTTP_TLS_KEY=/opt/ssl/key.pem \
   -e REGISTRY_HTTP_TLS_CERTIFICATE=/opt/ssl/certificate.pem \
-  esailors/aws-ecr-http-proxy:latest
+  eddiem21/aws-ecr-http-proxy:latest
 ```
 
 If you ran this command on "registry-proxy.example.com" you can now get your images using `docker pull registry-proxy.example.com:5000/repo/image`.
@@ -70,6 +70,24 @@ helm install evryfs-oss/ecr-proxy --name ecr-proxy --namespace ecr-proxy
 
 See the [values-file](https://github.com/evryfs/helm-charts/blob/master/charts/ecr-proxy/values.yaml) for configuration parameters.
 
+### Image variants
+The aws-ecr-http-proxy images are available in two flavors.
+
+#### eddiem21/aws-ecr-http-proxy:latest
+
+This image uses the debian:bullseye based nginx image.
+
+```console
+docker pull eddiem21/aws-ecr-http-proxy:latest
+```
+
+#### eddiem21/aws-ecr-http-proxy:alpine
+
+This image is based on the nginx:alpine image.
+
+```console
+docker pull eddiem21/aws-ecr-http-proxy:alpine
+```
 
 ### Note on SSL/TLS
 The proxy is using `HTTP` (plain text) as default protocol for now. So in order to avoid docker client complaining either:
