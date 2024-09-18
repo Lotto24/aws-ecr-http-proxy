@@ -1,6 +1,10 @@
 #!/bin/sh
 
-set -xe
+set -e
+set +x
+
+echo 'Using identity:'
+aws sts get-caller-identity
 
 # update the auth token
 CONFIG=/usr/local/openresty/nginx/conf/nginx.conf
@@ -14,9 +18,10 @@ while true; do
   sleep 30
 done
 
-
 AUTH_N=$(echo AWS:${TOKEN}  | base64 |tr -d "[:space:]")
-
 sed -i "s|${AUTH%??}|${AUTH_N}|g" $CONFIG
 
-nginx -s reload
+if [ "$1" == "reload" ]; then
+  echo "Reloading nginx"
+  nginx -s reload
+fi
