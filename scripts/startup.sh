@@ -33,7 +33,7 @@ SSL_CONFIG=/usr/local/openresty/nginx/conf/ssl.conf
 
 if [ "$ENABLE_SSL" ] && [ "$ENABLE_SSL" == "true" ]; then
   sed -i -e s!__SSL_KEY__!"$SSL_KEY"!g $SSL_CONFIG
-  sed -i -e s!__SSL_CERTIFICATE__!"$SSL_CERT"!g $SSL_CONFIG
+  sed -i -e s!__SSL_CERTIFICATE__!"$SSL_CERTIFICATE"!g $SSL_CONFIG
   SSL_LISTEN="ssl"
   SSL_INCLUDE="include $SSL_CONFIG;"
   SCHEME="https"
