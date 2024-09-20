@@ -18,11 +18,6 @@ if [ -z "$RESOLVER" ] ; then
   exit 1
 fi
 
-if [ -z "$AWS_REGION" ] ; then
-  echo "AWS_REGION not set."
-  exit 1
-fi
-
 ECR_WITHOUT_PORT=$( echo ${ECR} | sed -r "s/.*:\/\/(.*):.*/\1/g")
 echo Using resolver $RESOLVER and $ECR [$(dig +short  ${ECR_WITHOUT_PORT})] as upstream.
 
