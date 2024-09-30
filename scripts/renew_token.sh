@@ -3,6 +3,8 @@
 set -e
 set +x
 
+source /etc/environment
+
 echo 'Using identity:'
 aws sts get-caller-identity
 

@@ -66,6 +66,6 @@ chown -R nginx:nginx /cache
 
 RENEW_INTERVAL_HOURS=${RENEW_INTERVAL_HOURS:-6}
 
-echo "0       */$RENEW_INTERVAL_HOURS     *       *       *       /renew_token.sh reload" > /etc/crontab/root
+echo "0       */$RENEW_INTERVAL_HOURS     *       *       *       /renew_token.sh reload" > /etc/crontabs/root
 
 exec "$@"
