@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aws-ecr-http-proxy
+  namespace: kube-system
+  labels:
+    app: aws-ecr-http-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aws-ecr-http-proxy
+  template:
+    metadata:
+      labels:
+        app: aws-ecr-http-proxy
+    spec:
+      containers:
+      - name: aws-ecr-http-proxy
+        image: kwarunek/aws-ecr-http-proxy:2.0.1
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+        ports:
+        - containerPort: 5000
+        env:
+        - name: PORT
+          value: "5000"
+        - name: RESOLVER
+          value: "8.8.8.8"
+        - name: ECR
+          value: "https://_____ACCOUNT_ID______.dkr.ecr.eu-central-1.amazonaws.com"
+        - name: CACHE_MAX_SIZE
+          value: "75g"
+        - name: ENABLE_SSL
+          value: "true"
+        - name: SSL_KEY
+          value: "/opt/ssl/ssl.key"
+        - name: SSL_CERTIFICATE
+          value: "/opt/ssl/ssl.cert"
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: aws-ecr-http-proxy-aws-credentials
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aws-ecr-http-proxy-aws-credentials
+              key: AWS_SECRET_ACCESS_KEY
+        volumeMounts:
+        - name: ssl-certs
+          mountPath: /opt/ssl
+          readOnly: true
+        - name: cache-volume
+          mountPath: /cache
+      volumes:
+      - name: cache-volume
+        emptyDir: {}
+      - name: ssl-certs
+        secret:
+          secretName: aws-ecr-http-proxy-ssl-certs

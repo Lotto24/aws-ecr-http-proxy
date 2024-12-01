@@ -1,3 +1,0 @@
-# Refresh the AWS ECR token periodically.
-# min   hour    day     month   weekday command
-0       */6     *       *       *       /renew_token.sh

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: aws-ecr-http-proxy
+  namespace: kube-system
+  labels:
+    app: aws-ecr-http-proxy
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5000
+    targetPort: 5000
+    protocol: TCP
+  selector:
+    app: aws-ecr-http-proxy

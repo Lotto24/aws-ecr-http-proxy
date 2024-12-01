@@ -1,3 +1,0 @@
-- hosts: docker-registry-proxy
-  roles:
-    - role: docker-registry-proxy
