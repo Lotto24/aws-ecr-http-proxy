@@ -30,7 +30,8 @@ if [ -z "$AWS_USE_EC2_ROLE_FOR_AUTH" ] || [ "$AWS_USE_EC2_ROLE_FOR_AUTH" != "tru
   fi
 fi
 
-UPSTREAM_WITHOUT_PORT=$( echo ${UPSTREAM} | sed -r "s/.*:\/\/(.*):.*/\1/g")
+UPSTREAM_WITHOUT_PORT=$(echo ${UPSTREAM} | sed -r "s/.*:\/\/(.*):.*/\1/g")
+UPSTREAM_REGISTRY_ID=$(echo ${UPSTREAM} | awk -F '//' '{print $2}' | awk -F '.' '{print $1}')
 echo Using resolver $RESOLVER and $UPSTREAM [$(dig +short  ${UPSTREAM_WITHOUT_PORT})] as upstream.
 
 CACHE_MAX_SIZE=${CACHE_MAX_SIZE:-75g}
@@ -78,10 +79,9 @@ fi
 chmod 600 -R ${AWS_FOLDER}
 
 # add the auth token in default.conf
-AUTH=$(grep  X-Forwarded-User $CONFIG | awk '{print $4}'| uniq|tr -d "\n\r")
-TOKEN=$(aws ecr get-login --no-include-email | awk '{print $6}')
-AUTH_N=$(echo AWS:${TOKEN}  | base64 |tr -d "[:space:]")
-sed -i "s|${AUTH%??}|${AUTH_N}|g" $CONFIG
+AUTH=$(grep X-Forwarded-User $CONFIG | awk '{print $4}'| uniq|tr -d "\n\r")
+TOKEN=$(aws ecr get-authorization-token --registry-ids $UPSTREAM_REGISTRY_ID | jq -r '.authorizationData[].authorizationToken')
+sed -i "s|${AUTH%??}|${TOKEN}|g" ${CONFIG}
 
 # make sure cache directory has correct ownership
 chown -R nginx:nginx /cache

@@ -2,7 +2,7 @@ FROM openresty/openresty:1.19.9.1-12-alpine
 
 USER root
 
-RUN apk add -v --no-cache bind-tools python3 py-pip py3-urllib3 py3-colorama supervisor \
+RUN apk add -v --no-cache bind-tools python3 py-pip py3-urllib3 py3-colorama supervisor jq \
  && mkdir /cache \
  && addgroup -g 110 nginx \
  && adduser -u 110  -D -S -h /cache -s /sbin/nologin -G nginx nginx \
