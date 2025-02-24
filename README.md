@@ -24,7 +24,9 @@ The proxy is packaged in a docker container and can be configured with following
 | `PORT`                              | Port on which proxy listens                    | Required                          |            |
 | `CACHE_MAX_SIZE`                    | Maximum size for cache volume                  | Optional                          |  `75g`     |
 | `CACHE_KEY`                         | Cache key used for the content by nginx        | Optional                          |  `$uri`    |
+| `CACHE_INACTIVE_TIME`               | Cache inactive time used by nginx              | Optional                          |   `1y`     |
 | `ENABLE_SSL`                        | Used to enable SSL/TLS for proxy               | Optional                          | `false`    |
+| `BEHIND_SSL_PROXY`                  | Fixes redirects when behind a proxy handling SSL (i.e. aws ALB)          | Optional                          | `false`    |
 | `REGISTRY_HTTP_TLS_KEY`             | Path to TLS key in the container               | Required with TLS                 |            |
 | `REGISTRY_HTTP_TLS_CERTIFICATE`     | Path to TLS cert in the container              | Required with TLS                 |            |
 
@@ -42,6 +44,7 @@ docker run -d --name docker-registry-proxy --net=host \
   -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
   -e AWS_REGION=${AWS_DEFAULT_REGION} \
   -e CACHE_MAX_SIZE=100g \
+  -e CACHE_INACTIVE_TIME=1y \
   -e ENABLE_SSL=true \
   -e REGISTRY_HTTP_TLS_KEY=/opt/ssl/key.pem \
   -e REGISTRY_HTTP_TLS_CERTIFICATE=/opt/ssl/certificate.pem \
@@ -75,3 +78,4 @@ See the [values-file](https://github.com/evryfs/helm-charts/blob/master/charts/e
 The proxy is using `HTTP` (plain text) as default protocol for now. So in order to avoid docker client complaining either:
  - (**Recommended**) Enable SSL/TLS using `ENABLE_SSL` configuration. For that you will have to mount your **valid** certificate/key in the container and pass the paths using  `REGISTRY_HTTP_TLS_*` variables.
  - Mark the registry host as insecure in your client [deamon config](https://docs.docker.com/registry/insecure/).
+ - If proxy is sitting behind an AWS ALB that handles SSL termination/redirect for clients (like running this proxy in an EKS cluster), setting `BEHIND_SSL_PROXY` to true will ensure `docker push` compatibility by setting `proxy_redirect` settings to https defaults (scheme: https, port: 443) irrespective of `PORT` variable.

@@ -39,7 +39,11 @@ echo Using cache max size $CACHE_MAX_SIZE
 CACHE_KEY=${CACHE_KEY:='$uri'}
 echo Using cache key $CACHE_KEY
 
+CACHE_INACTIVE_TIME=${CACHE_INACTIVE_TIME=:-1y}
+echo Using cache max size $CACHE_MAX_SIZE
+
 SCHEME=http
+REDIRECT_PORT=$PORT
 CONFIG=/usr/local/openresty/nginx/conf/nginx.conf
 SSL_CONFIG=/usr/local/openresty/nginx/conf/ssl.conf
 
@@ -49,14 +53,19 @@ if [ "$ENABLE_SSL" ]; then
   SSL_LISTEN="ssl"
   SSL_INCLUDE="include $SSL_CONFIG;"
   SCHEME="https"
+elif [ "$BEHIND_SSL_PROXY" ]; then
+  SCHEME="https"
+  REDIRECT_PORT="443"
 fi
 
 # Update nginx config
 sed -i -e s!UPSTREAM!"$UPSTREAM"!g $CONFIG
+sed -i -e s!REDIRECT_PORT!"$REDIRECT_PORT"!g $CONFIG
 sed -i -e s!PORT!"$PORT"!g $CONFIG
 sed -i -e s!RESOLVER!"$RESOLVER"!g $CONFIG
 sed -i -e s!CACHE_MAX_SIZE!"$CACHE_MAX_SIZE"!g $CONFIG
 sed -i -e s!CACHE_KEY!"$CACHE_KEY"!g $CONFIG
+sed -i -e s!CACHE_INACTIVE_TIME!"$CACHE_INACTIVE_TIME"!g $CONFIG
 sed -i -e s!SCHEME!"$SCHEME"!g $CONFIG
 sed -i -e s!SSL_INCLUDE!"$SSL_INCLUDE"!g $CONFIG
 sed -i -e s!SSL_LISTEN!"$SSL_LISTEN"!g $CONFIG
